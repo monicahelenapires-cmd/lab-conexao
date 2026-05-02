@@ -1,724 +1,108 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Turma Beta — Lab Conexão Imobiliária</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --cream: #F5F0E8;
-    --dark: #0F0E0C;
-    --gold: #B8975A;
-    --gold-light: #D4B07A;
-    --muted: #6B6560;
-    --border: rgba(184,151,90,0.2);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--dark);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 80px 40px;
-    position: relative;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 70% 30%, rgba(184,151,90,0.06) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .tag {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 48px;
-    display: inline-block;
-  }
-
-  .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(40px, 5.5vw, 80px);
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    max-width: 900px;
-    margin-bottom: 36px;
-  }
-
-  .hero h1 em { font-style: italic; color: var(--gold-light); }
-
-  .hero-sub {
-    font-size: clamp(15px, 1.8vw, 18px);
-    color: rgba(245,240,232,0.6);
-    max-width: 560px;
-    margin-bottom: 52px;
-    line-height: 1.8;
-  }
-
-  .prazo-bar {
-    display: inline-block;
-    font-size: 13px;
-    color: var(--gold);
-    letter-spacing: 0.05em;
-    padding: 14px 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    max-width: 480px;
-  }
-
-  section {
-    padding: 100px 40px;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  .full-section {
-    border-top: 1px solid var(--border);
-    background: rgba(184,151,90,0.03);
-  }
-
-  .full-section-inner {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 100px 40px;
-  }
-
-  .section-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 48px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(30px, 4vw, 50px);
-    font-weight: 300;
-    line-height: 1.15;
-    margin-bottom: 32px;
-  }
-
-  h2 em { font-style: italic; color: var(--gold-light); }
-
-  p {
-    color: rgba(245,240,232,0.7);
-    font-size: 16px;
-    line-height: 1.85;
-    margin-bottom: 20px;
-    max-width: 680px;
-  }
-
-  .pull-quote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(20px, 2.8vw, 32px);
-    font-weight: 300;
-    font-style: italic;
-    line-height: 1.45;
-    color: var(--cream);
-    margin: 48px 0;
-    padding-left: 32px;
-    border-left: 1px solid var(--gold);
-    max-width: 700px;
-  }
-
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-
-  .aulas-info {
-    display: flex;
-    gap: 48px;
-    margin-bottom: 48px;
-    flex-wrap: wrap;
-  }
-
-  .aula-meta {
-    border-top: 1px solid var(--border);
-    padding-top: 20px;
-    min-width: 160px;
-  }
-
-  .aula-meta-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  .aula-meta-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    color: var(--cream);
-  }
-
-  .aulas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-
-  .aula-item {
-    background: var(--dark);
-    padding: 32px;
-    transition: background 0.3s;
-  }
-
-  .aula-item:hover { background: rgba(184,151,90,0.04); }
-  .aula-item.duplo { border-left: 2px solid rgba(184,151,90,0.3); }
-
-  .aula-num {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    margin-bottom: 12px;
-    display: block;
-  }
-
-  .aula-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-weight: 400;
-    color: var(--cream);
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
-
-  .aula-desc {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
-    margin: 0;
-    max-width: none;
-  }
-
-  .publico-list { list-style: none; margin-top: 40px; }
-
-  .publico-list li {
-    padding: 22px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 16px;
-    color: rgba(245,240,232,0.75);
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    line-height: 1.6;
-  }
-
-  .publico-list li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
-
-  .credencial-block {
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-
-  .credencial-item {
-    font-size: 13px;
-    color: var(--muted);
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(184,151,90,0.1);
-    display: flex;
-    gap: 12px;
-  }
-
-  .credencial-item span:first-child { color: var(--gold); flex-shrink: 0; }
-
-  .selecao-boxes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    margin-top: 48px;
-  }
-
-  .selecao-box { background: var(--dark); padding: 40px; }
-
-  .badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-    border: 1px solid var(--border);
-    padding: 4px 10px;
-    margin-bottom: 20px;
-  }
-
-  .selecao-box h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 300;
-    margin-bottom: 12px;
-    color: var(--cream);
-  }
-
-  .selecao-box p { font-size: 14px; margin: 0; }
-
-  .bonus-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    margin-top: 48px;
-  }
-
-  .bonus-item { background: var(--dark); padding: 36px; }
-
-  .bonus-label {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  .bonus-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--cream);
-    margin-bottom: 12px;
-    line-height: 1.3;
-  }
-
-  .bonus-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; }
-
-  .troca-items { margin-top: 48px; }
-
-  .troca-item {
-    padding: 28px 0;
-    border-bottom: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 40px;
-    align-items: start;
-  }
-
-  .troca-item h4 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--gold-light);
-    line-height: 1.3;
-  }
-
-  .troca-item p { font-size: 14px; margin: 0; }
-
-  .investimento {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 48px 40px;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    text-align: center;
-  }
-
-  .footer-cta {
-    text-align: center;
-    padding: 120px 40px;
-    border-top: 1px solid var(--border);
-    position: relative;
-  }
-
-  .footer-cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(184,151,90,0.07) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .footer-cta h2 { max-width: 760px; margin: 0 auto 28px; }
-  .footer-cta > p { max-width: 620px; margin: 0 auto 48px; text-align: center; }
-
-  .whatsapp-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--gold);
-    color: var(--dark);
-    text-decoration: none;
-    padding: 18px 44px;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    transition: background 0.2s, transform 0.2s;
-  }
-
-  .whatsapp-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
-
-  .vagas-note { margin-top: 20px; font-size: 12px; color: var(--gold); letter-spacing: 0.05em; }
-  .footer-note { margin-top: 12px; font-size: 12px; color: var(--muted); }
-
-  footer {
-    padding: 40px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: var(--muted);
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .disclaimer { opacity: 0.6; max-width: 480px; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero > * { animation: fadeUp 0.8s ease forwards; opacity: 0; }
-  .hero .tag { animation-delay: 0.1s; }
-  .hero h1 { animation-delay: 0.25s; }
-  .hero .hero-sub { animation-delay: 0.4s; }
-  .hero .prazo-bar { animation-delay: 0.5s; }
-
-  @media (max-width: 768px) {
-    .hero { padding: 60px 24px; }
-    section { padding: 72px 24px; }
-    .full-section-inner { padding: 72px 24px; }
-    .two-col { grid-template-columns: 1fr; gap: 40px; }
-    .selecao-boxes { grid-template-columns: 1fr; }
-    .troca-item { grid-template-columns: 1fr; gap: 12px; }
-    .investimento { padding: 48px 24px; }
-    footer { flex-direction: column; }
-  }
-</style>
-</head>
-<body>
-
-<div class="hero">
-  <span class="tag">Lab Conexão Imobiliária — Nível Essencial</span>
-  <h1>Para o corretor que atua com imóveis de alto padrão e quer conduzir a negociação com <em>segurança</em>, leitura de cenário e repertório prático.</h1>
-  <p class="hero-sub">Quem entra numa negociação sem entender o que pode acontecer ao longo da operação não está negociando. Está refém da sorte. O Lab existe para mudar isso.</p>
-  <div class="prazo-bar">Terças e quintas &nbsp;·&nbsp; 8h &nbsp;·&nbsp; Vagas limitadas &nbsp;·&nbsp; Início em maio</div>
-  <p style="margin-top:24px;font-size:13px;color:var(--muted);max-width:480px;line-height:1.7;">As inscrições para a Turma Beta se encerram em 19/04.</p>
-</div>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">O problema</div>
-  <h2>A surpresa é sempre <em>muito ruim</em>.</h2>
-  <p class="pull-quote"><em>O cliente perguntou. E eu não soube responder.</em></p>
-  <ul style="list-style:none;margin:32px 0;display:flex;flex-direction:column;gap:0;">
-    <li style="padding:18px 0;border-bottom:1px solid var(--border);font-size:16px;color:rgba(245,240,232,0.75);display:flex;align-items:flex-start;gap:20px;"><span style="color:var(--gold);flex-shrink:0;">—</span>Não saber responder uma pergunta técnica.</li>
-    <li style="padding:18px 0;border-bottom:1px solid var(--border);font-size:16px;color:rgba(245,240,232,0.75);display:flex;align-items:flex-start;gap:20px;"><span style="color:var(--gold);flex-shrink:0;">—</span>Depender de terceiros para cada dúvida que surge na operação.</li>
-    <li style="padding:18px 0;border-bottom:1px solid var(--border);font-size:16px;color:rgba(245,240,232,0.75);display:flex;align-items:flex-start;gap:20px;"><span style="color:var(--gold);flex-shrink:0;">—</span>Perder uma venda por falta de leitura de cenário.</li>
-    <li style="padding:18px 0;border-bottom:1px solid var(--border);font-size:16px;color:rgba(245,240,232,0.75);display:flex;align-items:flex-start;gap:20px;"><span style="color:var(--gold);flex-shrink:0;">—</span>Não conseguir conduzir uma operação com segurança do início ao fim.</li>
-  </ul>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:48px 0;">
-    <div style="background:var(--dark);padding:32px;">
-      <span style="font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--gold);margin-bottom:12px;display:block;">01</span>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--cream);line-height:1.3;">Entender como a operação funciona do início ao registro</div>
-    </div>
-    <div style="background:var(--dark);padding:32px;">
-      <span style="font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--gold);margin-bottom:12px;display:block;">02</span>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--cream);line-height:1.3;">Aprender a identificar onde a negociação pode travar</div>
-    </div>
-    <div style="background:var(--dark);padding:32px;">
-      <span style="font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--gold);margin-bottom:12px;display:block;">03</span>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--cream);line-height:1.3;">Saber o que fazer quando isso acontece</div>
-    </div>
-  </div>
-  <p>No mercado de imóveis de alto padrão, isso se constrói com técnica e com prática. O Lab reúne os dois.</p>
-  <p>Quanto mais se antecipa, mais fácil fica na hora da negociação. E quando a história se repete, vai ficando mais fácil reconhecê-la.</p>
-</section>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">O que é o Lab</div>
-  <h2>As peças do quebra-cabeça, <em>uma por uma</em>.</h2>
-  <p>Eu falo dos bastidores. Da vida como ela é. Do que de fato acontece ao longo de uma negociação. Aquilo que não está no roteiro, mas que define se a operação vai ou não chegar até o fim.</p>
-  <p>Ao longo dos anos, ficou muito claro para mim que existem fatores que, se não forem observados no momento certo, inviabilizam uma venda. E, na maioria das vezes, não têm relação direta nem com preço nem com a própria diligência documental. São pontos mais sutis, que envolvem leitura de cenário, condução, timing e alinhamento entre as partes.</p>
-  <p>O objetivo não é transformar o corretor em técnico de cartório. É fazer com que ele entenda o que está acontecendo na operação. No alto padrão, repertório técnico não substitui venda. Ele sustenta a venda.</p>
-  <p>O Lab não ensina o corretor a vender. Ensina a sustentar a venda quando a negociação começa de verdade.</p>
-</section>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">O que você não verá aqui</div>
-  <h2>Sem teoria desconectada. <em>Sem atalhos.</em></h2>
-  <ul class="publico-list">
-    <li>Teoria jurídica desconectada da operação</li>
-    <li>Promessa simplista para um mercado que é complexo</li>
-    <li>Script pronto que ignora a realidade de cada negociação</li>
-    <li>Conteúdo genérico que poderia servir para qualquer tipo de imóvel</li>
-  </ul>
-</section>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">Depois do Lab</div>
-  <h2>A diferença aparece na forma como você <em>entra numa negociação</em>.</h2>
-  <p>Você passa a antecipar o que antes só aparecia como problema. Entende o que está travando a operação, mesmo quando ninguém fala. Conduz com mais segurança, sem precisar de alguém ao lado para confirmar o que está acontecendo.</p>
-  <p>Com o tempo, certos movimentos deixam de ser surpresa. E quando a história se repete, você já sabe o que vem a seguir.</p>
-</section>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">O programa</div>
-  <h2>14 encontros. Uma operação <em>completa</em>.</h2>
-  <div class="aulas-info">
-    <div class="aula-meta">
-      <span class="aula-meta-label">Frequência</span>
-      <div class="aula-meta-value">Terças e quintas</div>
-    </div>
-    <div class="aula-meta">
-      <span class="aula-meta-label">Horário</span>
-      <div class="aula-meta-value">8h — a confirmar</div>
-    </div>
-    <div class="aula-meta">
-      <span class="aula-meta-label">Formato</span>
-      <div class="aula-meta-value">Online ao vivo</div>
-    </div>
-    <div class="aula-meta">
-      <span class="aula-meta-label">Início</span>
-      <div class="aula-meta-value">Maio de 2026</div>
-    </div>
-  </div>
-  <div class="aulas-grid">
-    <div class="aula-item">
-      <span class="aula-num">Encontro 01</span>
-      <div class="aula-title">Diagnóstico e alinhamento</div>
-      <p class="aula-desc">Onde cada participante está. O que o Lab vai construir. Anatomia da decisão: o perfil de quem move o mercado de luxo.</p>
-    </div>
-    <div class="aula-item">
-      <span class="aula-num">Encontro 02</span>
-      <div class="aula-title">O imóvel e a matrícula</div>
-      <p class="aula-desc">Como nasce uma matrícula. Casa, apartamento, vaga de garagem. Cartórios envolvidos: tabelionato de notas e registro de imóveis.</p>
-    </div>
-    <div class="aula-item duplo">
-      <span class="aula-num">Encontros 03 e 04</span>
-      <div class="aula-title">Esse imóvel vai ser vendido</div>
-      <p class="aula-desc">Pilares de tensão. Mapeamento, antecipação, proposta e escritura.</p>
-    </div>
-    <div class="aula-item duplo">
-      <span class="aula-num">Encontros 05 e 06</span>
-      <div class="aula-title">Engenharia do pagamento</div>
-      <p class="aula-desc">Financiamento, consórcio, FGTS, prazos, alienação fiduciária, interveniente quitante.</p>
-    </div>
-    <div class="aula-item">
-      <span class="aula-num">Encontro 07</span>
-      <div class="aula-title">Compromisso de compra e venda</div>
-      <p class="aula-desc">O que é e como funciona.</p>
-    </div>
-    <div class="aula-item">
-      <span class="aula-num">Encontro 08</span>
-      <div class="aula-title">Documentos e diligência imobiliária</div>
-      <p class="aula-desc">Documentação de praxe. Perfil do advogado do vendedor e do comprador. Função do jurídico da imobiliária.</p>
-    </div>
-    <div class="aula-item">
-      <span class="aula-num">Encontro 09</span>
-      <div class="aula-title">Comissão</div>
-      <p class="aula-desc">Legislação, jurisprudência e blindagem jurídica da comissão no mercado de alto padrão.</p>
-    </div>
-    <div class="aula-item">
-      <span class="aula-num">Encontro 10</span>
-      <div class="aula-title">ITBI e custas</div>
-      <p class="aula-desc">O que é e como calcular.</p>
-    </div>
-    <div class="aula-item">
-      <span class="aula-num">Encontro 11</span>
-      <div class="aula-title">Pesquisa em portais e inteligência artificial</div>
-      <p class="aula-desc">Aula prática. Navegação nos sites mais importantes para o corretor de imóveis. Uso e limites da inteligência artificial.</p>
-    </div>
-    <div class="aula-item">
-      <span class="aula-num">Encontro 12</span>
-      <div class="aula-title">Due diligence do comprador</div>
-      <p class="aula-desc">Precauções visando a segurança do corretor.</p>
-    </div>
-    <div class="aula-item">
-      <span class="aula-num">Encontro 13</span>
-      <div class="aula-title">Simulação integrada</div>
-      <p class="aula-desc">Um caso completo do início ao registro. O grupo conduz. A instrutora insere variáveis.</p>
-    </div>
-    <div class="aula-item">
-      <span class="aula-num">Encontro 14</span>
-      <div class="aula-title">Devolutiva e fechamento</div>
-      <p class="aula-desc">Cada participante recebe o mapa do caminho percorrido.</p>
-    </div>
-  </div>
-</section>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">Para quem é</div>
-  <h2>Para o corretor que quer entender a operação e negociar com <em>mais segurança</em>.</h2>
-  <ul class="publico-list">
-    <li>Corretores que atuam ou querem atuar no segmento de alto padrão e precisam dominar a operação do início ao fim</li>
-    <li>Profissionais que migraram de outra área e querem entender melhor a lógica da transação imobiliária</li>
-    <li>Corretores com experiência de campo, mas que ainda não construíram visão ampla sobre o que sustenta uma operação complexa</li>
-  </ul>
-</section>
-
-<div class="full-section">
-  <div class="full-section-inner">
-    <div class="section-label">A instrutora</div>
-    <div class="two-col">
-      <div>
-        <h2>Monica Helena Moreira Pires</h2>
-        <div class="credencial-block" style="margin-bottom:40px;">
-          <div class="credencial-item"><span>—</span><span>Advogada há 30 anos. Especializada em direito imobiliário, processo civil e direito constitucional</span></div>
-          <div class="credencial-item"><span>—</span><span>Dez anos de atuação exclusiva em transações imobiliárias de alto padrão</span></div>
-          <div class="credencial-item"><span>—</span><span>Centenas de transações acompanhadas do início ao registro</span></div>
-          <div class="credencial-item"><span>—</span><span>Mais de 60 corretores e gestores atendidos na prática jurídica</span></div>
-          <div class="credencial-item"><span>—</span><span>Fundadora do MHMP Consultoria Jurídica</span></div>
-          <div class="credencial-item" style="margin-top:24px;padding-top:24px;border-top:1px solid var(--border);">
-            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--gold);flex-shrink:0;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>
-            <span><a href="https://www.linkedin.com/in/monica-helena-moreira-pires" target="_blank" style="color:var(--muted);text-decoration:none;">Monica Helena Moreira Pires</a></span>
-          </div>
-          <div class="credencial-item">
-            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--gold);flex-shrink:0;"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
-            <span><a href="https://www.instagram.com/monicahmpires" target="_blank" style="color:var(--muted);text-decoration:none;">@monicahmpires</a></span>
-          </div>
-        </div>
-        <p>Quando uma das corretoras que acompanho me procurou pedindo indicação de cursos, eu fui olhar o que existia no mercado. E, com franqueza, não encontrei nada que eu me sentisse confortável em indicar.</p>
-        <p>O que eu vi foi, em geral, conteúdo muito teórico, muito distante da realidade das negociações de alto padrão e da forma como as operações realmente se desenrolam.</p>
-        <p>Foi daí que veio a decisão de dar essa aula eu mesma.</p>
-        <p>O Lab nasce da minha prática. Do que eu faço todos os dias. De anos acompanhando corretores, gestores e operações complexas. São centenas de transações ao longo do tempo, olhando de perto onde as propostas travam, em que momento a leitura do cenário falha e como um detalhe aparentemente pequeno pode comprometer a negociação.</p>
-        <p>O que eu entrego aqui não é teoria solta. É o que eu construí ao longo de 30 anos de atuação, organizado e traduzido para quem está na ponta e precisa entender melhor a operação para negociar melhor.</p>
-      </div>
-      <div></div>
-    </div>
-  </div>
-</div>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">Admissão de convidados</div>
-  <h2>As vagas são <em>limitadas</em>.</h2>
-  <p>A Turma Beta funciona como um grupo pequeno e coeso. A entrada é por indicação.</p>
-  <div class="selecao-boxes">
-    <div class="selecao-box">
-      <div class="badge">Jardins</div>
-      <h3>Corretores da Jardins</h3>
-      <p>Admissão automática mediante indicação de uma participante da turma atual.</p>
-    </div>
-    <div class="selecao-box">
-      <div class="badge">Externos</div>
-      <h3>Corretores de fora da Jardins</h3>
-      <p>Passam por uma conversa de pré-seleção com Monica para entender o perfil e verificar o encaixe com o grupo.</p>
-    </div>
-  </div>
-</section>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">Bônus para quem conclui</div>
-  <h2>Bônus para quem <em>conclui</em>.</h2>
-  <p>Os bônus são para quem conclui todos os encontros.</p>
-  <div class="bonus-grid">
-    <div class="bonus-item">
-      <span class="bonus-label">Bônus 01</span>
-      <div class="bonus-title">Sorteio de mentoria individual</div>
-      <p class="bonus-desc">Uma sessão de duas horas com Monica para tirar dúvidas específicas de casos reais, sorteada entre as participantes que concluírem o programa.</p>
-    </div>
-    <div class="bonus-item">
-      <span class="bonus-label">Bônus 02</span>
-      <div class="bonus-title">Lupa Jurídica</div>
-      <p class="bonus-desc">Entrada no grupo fechado de WhatsApp onde Monica comenta casos reais e compartilha análises do mercado. Todos os alunos que já concluíram a mentoria estão lá.</p>
-    </div>
-    <div class="bonus-item">
-      <span class="bonus-label">Bônus 03</span>
-      <div class="bonus-title">Ebook do programa</div>
-      <p class="bonus-desc">Material consolidado com o conteúdo dos 14 encontros, entregue ao final da mentoria como referência de consulta.</p>
-    </div>
-  </div>
-</section>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">A troca</div>
-  <h2>Em troca da mentoria, <em>feedback real</em>.</h2>
-  <p>A Turma Beta existe para construir o produto final. Cada participante contribui com feedback após os encontros.</p>
-  <p>Toda a comunicação da turma acontece por um grupo de WhatsApp criado exclusivamente para as participantes.</p>
-  <div class="troca-items">
-    <div class="troca-item">
-      <h4>Formulários após cada encontro</h4>
-      <p>Perguntas objetivas sobre o conteúdo, o ritmo e o formato. São vários formulários ao longo do programa, cada um com foco diferente.</p>
-    </div>
-    <div class="troca-item">
-      <h4>Grupo de WhatsApp exclusivo</h4>
-      <p>Canal direto com Monica e com as outras participantes.</p>
-    </div>
-    <div class="troca-item">
-      <h4>Participação ativa nas aulas</h4>
-      <p>Câmera ligada, perguntas respondidas, casos trazidos pelas participantes.</p>
-    </div>
-    <div class="troca-item">
-      <h4>Devolutiva ao final do programa</h4>
-      <p>Uma conversa sobre o caminho percorrido e o que funcionou ou não na experiência de cada participante.</p>
-    </div>
-  </div>
-</section>
-
-<div class="investimento">
-  <p style="font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;font-family:'DM Sans',sans-serif;">O investimento</p>
-  <p style="font-size:16px;color:rgba(245,240,232,0.7);font-family:'DM Sans',sans-serif;max-width:580px;margin:0 auto;line-height:1.85;">O Lab foi estruturado como uma mentoria premium, com valor regular de R$ 7.500. A Turma Beta não é aberta ao público. Existe para construir o programa final. Nesta edição, a participação não envolve pagamento financeiro. Em troca, presença, participação ativa e feedback real.</p>
-</div>
-
-<section style="border-top: 1px solid var(--border);">
-  <div class="section-label">Próxima turma</div>
-  <h2>A Turma Beta é a <em>última nesse formato</em>.</h2>
-  <p>As próximas turmas serão estruturadas como programa fechado, com investimento. A prioridade de acesso será para quem estiver na lista de espera.</p>
-  <p>O Lab Conexão Imobiliária terá três níveis: Essencial, Avançado e Master. A Turma Beta é a última edição do Nível Essencial nesse formato de laboratório.</p>
-  <p>Se você chegou até aqui por indicação e ainda está dentro do prazo, o caminho é agendar a conversa de pré-seleção. Se a Turma Beta já estiver completa, você pode entrar na lista de espera e será avisada antes da abertura das próximas vagas.</p>
-</section>
-
-<div class="footer-cta">
-  <div style="font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;">Turma Beta</div>
-  <h2>Essa não é uma turma aberta. Se você chegou até aqui, provavelmente veio por indicação.</h2>
-  <p>Se fizer sentido, podemos conversar. E entender se este é o momento certo.</p>
-  <p class="vagas-note" style="margin-bottom:32px;">Vagas limitadas &nbsp;·&nbsp; Início em maio de 2026</p>
-  <p style="font-size:13px;color:var(--muted);margin-bottom:24px;">Indicações encerram em 19/04. A partir de 20/04, as vagas passam para lista de espera.</p>
-  <a href="https://wa.me/5511981119489?text=Ol%C3%A1%20Monica%2C%20fui%20indicada%20para%20a%20Turma%20Beta%20do%20Lab.%20Gostaria%20de%20agendar%20minha%20conversa%20de%20pr%C3%A9-sele%C3%A7%C3%A3o." class="whatsapp-btn">Agendar conversa de pré-seleção — Turma Beta · Nível Essencial</a>
-  <div style="margin-top:32px;padding-top:32px;border-top:1px solid var(--border);">
-    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">A próxima turma terá investimento. Quem estiver na lista tem prioridade de acesso.</p>
-    <a href="https://wa.me/5511981119489?text=Ol%C3%A1%20Monica%2C%20gostaria%20de%20entrar%20na%20lista%20de%20espera%20para%20a%20pr%C3%B3xima%20turma%20do%20Lab." style="display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);color:var(--cream);text-decoration:none;padding:14px 36px;font-size:13px;font-weight:400;letter-spacing:0.05em;font-family:'DM Sans',sans-serif;transition:border-color 0.2s;">Entrar na lista de espera</a>
-  </div>
-</div>
-
-<footer>
-  <span>Lab Conexão Imobiliária &nbsp;·&nbsp; MHMP Consultoria Jurídica</span>
-  <span class="disclaimer">Este programa é uma iniciativa pessoal de Monica Helena Moreira Pires e não tem relação com a Jardins ou com qualquer imobiliária.</span>
-</footer>
-
-</body>
-</html>
+// Conteúdo real da Turma Beta — Lab Conexão Imobiliária
+// Fonte: página oficial Turma Beta · Nível Essencial
+
+window.LAB_DATA = {
+  programa: {
+    titulo: "Nível Essencial",
+    formato: "Online ao vivo",
+    frequencia: "Terças e quintas, 8h",
+    inicio: "Maio de 2026",
+    encontros: 14,
+  },
+  aluna: {
+    nome: "Monica",
+    saudacao: "BEM-VINDA",
+    progresso: { atual: 4, total: 14 },
+  },
+  zoom: {
+    url: "https://us06web.zoom.us/j/3986232427?pwd=HEYXvcaoeb32r0AC0tUrb1N7tLMPg7.1",
+    horario: "08:00",
+    duracao: 90, // minutos
+    fuso: "America/Sao_Paulo",
+  },
+  encontros: [
+    { n: "01", titulo: "Diagnóstico e alinhamento",                  desc: "Onde cada participante está. Anatomia da decisão: o perfil de quem move o mercado de luxo.",                desc_curta: "Diagnóstico e alinhamento.",         data: "2026-05-05", diaSemana: "ter" },
+    { n: "02", titulo: "O imóvel e a matrícula",                     desc: "Como nasce uma matrícula. Cartórios envolvidos: tabelionato de notas e registro de imóveis.",              desc_curta: "Como nasce uma matrícula.",          data: "2026-05-07", diaSemana: "qui" },
+    { n: "03", titulo: "Esse imóvel vai ser vendido — parte 1",      desc: "Pilares de tensão. Mapeamento e antecipação.",                                                              desc_curta: "Mapeamento e antecipação.",          data: "2026-05-12", diaSemana: "ter" },
+    { n: "04", titulo: "Esse imóvel vai ser vendido — parte 2",      desc: "Proposta e escritura. Continuação dos pilares.",                                                            desc_curta: "Proposta e escritura.",              data: "2026-05-14", diaSemana: "qui" },
+    { n: "05", titulo: "Engenharia do pagamento — parte 1",          desc: "Financiamento, consórcio, FGTS, prazos.",                                                                   desc_curta: "Financiamento, consórcio, FGTS.",    data: "2026-05-19", diaSemana: "ter" },
+    { n: "06", titulo: "Engenharia do pagamento — parte 2",          desc: "Alienação fiduciária, interveniente quitante.",                                                             desc_curta: "Alienação fiduciária.",              data: "2026-05-21", diaSemana: "qui" },
+    { n: "07", titulo: "Compromisso de compra e venda",              desc: "O que é e como funciona.",                                                                                  desc_curta: "Compromisso de compra e venda.",     data: "2026-05-26", diaSemana: "ter" },
+    { n: "08", titulo: "Documentos e diligência imobiliária",        desc: "Documentação de praxe. Perfil do advogado do vendedor e do comprador.",                                     desc_curta: "Documentação e diligência.",         data: "2026-05-28", diaSemana: "qui" },
+    { n: "09", titulo: "Comissão",                                   desc: "Legislação, jurisprudência e blindagem jurídica da comissão.",                                              desc_curta: "Blindagem jurídica da comissão.",    data: "2026-06-02", diaSemana: "ter" },
+    { n: "10", titulo: "ITBI e custas",                              desc: "O que é e como calcular.",                                                                                  desc_curta: "ITBI e custas.",                     data: "2026-06-04", diaSemana: "qui" },
+    { n: "11", titulo: "Pesquisa em portais e IA",                   desc: "Aula prática. Uso e limites da inteligência artificial.",                                                   desc_curta: "Portais e IA.",                      data: "2026-06-09", diaSemana: "ter" },
+    { n: "12", titulo: "Due diligence do comprador",                 desc: "Precauções visando a segurança do corretor.",                                                               desc_curta: "Due diligence.",                     data: "2026-06-11", diaSemana: "qui" },
+    { n: "13", titulo: "Simulação integrada",                        desc: "Um caso completo do início ao registro. O grupo conduz.",                                                   desc_curta: "Simulação integrada.",               data: "2026-06-16", diaSemana: "ter" },
+    { n: "14", titulo: "Devolutiva e fechamento",                    desc: "Cada participante recebe o mapa do caminho percorrido.",                                                    desc_curta: "Devolutiva e fechamento.",           data: "2026-06-18", diaSemana: "qui" },
+  ],
+  bonus: [
+    { n: "01", titulo: "Sorteio de mentoria individual", desc: "Sessão de duas horas com Monica, sorteada entre quem concluir." },
+    { n: "02", titulo: "Lupa Jurídica", desc: "Grupo fechado de WhatsApp onde Monica comenta casos reais." },
+    { n: "03", titulo: "Ebook do programa", desc: "Material consolidado dos 14 encontros, ao final da mentoria." },
+  ],
+  citacoes: [
+    "A surpresa é sempre muito ruim.",
+    "No alto padrão, repertório técnico não substitui venda. Ele sustenta a venda.",
+    "O Lab não ensina o corretor a vender. Ensina a sustentar a venda quando a negociação começa de verdade.",
+  ],
+};
+
+// Helpers de data — calcula status, formato BR, próximo encontro
+window.LAB_HELPERS = {
+  // Status do encontro a partir da data (em America/Sao_Paulo)
+  // - "concluido": data passou (já aconteceu)
+  // - "atual": é hoje
+  // - "futuro": ainda vai acontecer
+  status(encontro, hoje = new Date()) {
+    const [y, m, d] = encontro.data.split('-').map(Number);
+    const dataEnc = new Date(y, m - 1, d);
+    const hoje0 = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+    if (dataEnc.getTime() === hoje0.getTime()) return 'atual';
+    if (dataEnc.getTime() < hoje0.getTime()) return 'concluido';
+    return 'futuro';
+  },
+
+  // "ter, 05 de maio"
+  formatoBR(encontro) {
+    const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    const dias = { ter: 'terça', qui: 'quinta' };
+    const [y, m, d] = encontro.data.split('-').map(Number);
+    return `${dias[encontro.diaSemana] || encontro.diaSemana}, ${String(d).padStart(2,'0')} de ${meses[m-1]}`;
+  },
+
+  // "05 mai" — formato curto para sidebar
+  formatoCurto(encontro) {
+    const meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+    const [y, m, d] = encontro.data.split('-').map(Number);
+    return `${String(d).padStart(2,'0')} ${meses[m-1]}`;
+  },
+
+  // Próximo encontro a acontecer (atual ou primeiro futuro)
+  proximoEncontro(hoje = new Date()) {
+    const D = window.LAB_DATA;
+    for (const e of D.encontros) {
+      const s = window.LAB_HELPERS.status(e, hoje);
+      if (s === 'atual' || s === 'futuro') return e;
+    }
+    return D.encontros[D.encontros.length - 1];
+  },
+
+  // URL Google Calendar para adicionar
+  googleCalendarUrl(encontro) {
+    const D = window.LAB_DATA;
+    const [y, m, d] = encontro.data.split('-').map(Number);
+    const inicio = new Date(y, m - 1, d, 8, 0, 0);
+    const fim = new Date(inicio.getTime() + D.zoom.duracao * 60000);
+    const fmt = (dt) => dt.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: `Lab Conexão · Encontro ${encontro.n} · ${encontro.titulo}`,
+      dates: `${fmt(inicio)}/${fmt(fim)}`,
+      details: `${encontro.desc}\n\nLink Zoom: ${D.zoom.url}`,
+      location: D.zoom.url,
+      ctz: D.zoom.fuso,
+    });
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  },
+};
