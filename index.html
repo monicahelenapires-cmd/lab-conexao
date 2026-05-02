@@ -1,108 +1,21 @@
-// Conteúdo real da Turma Beta — Lab Conexão Imobiliária
-// Fonte: página oficial Turma Beta · Nível Essencial
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Portal exclusivo da Turma Beta · Lab Conexão Imobiliária" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Lab Conexão Imobiliária · Portal Turma Beta</title>
+<link rel="stylesheet" href="portal.css" />
+</head>
+<body>
+<div id="root"></div>
 
-window.LAB_DATA = {
-  programa: {
-    titulo: "Nível Essencial",
-    formato: "Online ao vivo",
-    frequencia: "Terças e quintas, 8h",
-    inicio: "Maio de 2026",
-    encontros: 14,
-  },
-  aluna: {
-    nome: "Monica",
-    saudacao: "BEM-VINDA",
-    progresso: { atual: 4, total: 14 },
-  },
-  zoom: {
-    url: "https://us06web.zoom.us/j/3986232427?pwd=HEYXvcaoeb32r0AC0tUrb1N7tLMPg7.1",
-    horario: "08:00",
-    duracao: 90, // minutos
-    fuso: "America/Sao_Paulo",
-  },
-  encontros: [
-    { n: "01", titulo: "Diagnóstico e alinhamento",                  desc: "Onde cada participante está. Anatomia da decisão: o perfil de quem move o mercado de luxo.",                desc_curta: "Diagnóstico e alinhamento.",         data: "2026-05-05", diaSemana: "ter" },
-    { n: "02", titulo: "O imóvel e a matrícula",                     desc: "Como nasce uma matrícula. Cartórios envolvidos: tabelionato de notas e registro de imóveis.",              desc_curta: "Como nasce uma matrícula.",          data: "2026-05-07", diaSemana: "qui" },
-    { n: "03", titulo: "Esse imóvel vai ser vendido — parte 1",      desc: "Pilares de tensão. Mapeamento e antecipação.",                                                              desc_curta: "Mapeamento e antecipação.",          data: "2026-05-12", diaSemana: "ter" },
-    { n: "04", titulo: "Esse imóvel vai ser vendido — parte 2",      desc: "Proposta e escritura. Continuação dos pilares.",                                                            desc_curta: "Proposta e escritura.",              data: "2026-05-14", diaSemana: "qui" },
-    { n: "05", titulo: "Engenharia do pagamento — parte 1",          desc: "Financiamento, consórcio, FGTS, prazos.",                                                                   desc_curta: "Financiamento, consórcio, FGTS.",    data: "2026-05-19", diaSemana: "ter" },
-    { n: "06", titulo: "Engenharia do pagamento — parte 2",          desc: "Alienação fiduciária, interveniente quitante.",                                                             desc_curta: "Alienação fiduciária.",              data: "2026-05-21", diaSemana: "qui" },
-    { n: "07", titulo: "Compromisso de compra e venda",              desc: "O que é e como funciona.",                                                                                  desc_curta: "Compromisso de compra e venda.",     data: "2026-05-26", diaSemana: "ter" },
-    { n: "08", titulo: "Documentos e diligência imobiliária",        desc: "Documentação de praxe. Perfil do advogado do vendedor e do comprador.",                                     desc_curta: "Documentação e diligência.",         data: "2026-05-28", diaSemana: "qui" },
-    { n: "09", titulo: "Comissão",                                   desc: "Legislação, jurisprudência e blindagem jurídica da comissão.",                                              desc_curta: "Blindagem jurídica da comissão.",    data: "2026-06-02", diaSemana: "ter" },
-    { n: "10", titulo: "ITBI e custas",                              desc: "O que é e como calcular.",                                                                                  desc_curta: "ITBI e custas.",                     data: "2026-06-04", diaSemana: "qui" },
-    { n: "11", titulo: "Pesquisa em portais e IA",                   desc: "Aula prática. Uso e limites da inteligência artificial.",                                                   desc_curta: "Portais e IA.",                      data: "2026-06-09", diaSemana: "ter" },
-    { n: "12", titulo: "Due diligence do comprador",                 desc: "Precauções visando a segurança do corretor.",                                                               desc_curta: "Due diligence.",                     data: "2026-06-11", diaSemana: "qui" },
-    { n: "13", titulo: "Simulação integrada",                        desc: "Um caso completo do início ao registro. O grupo conduz.",                                                   desc_curta: "Simulação integrada.",               data: "2026-06-16", diaSemana: "ter" },
-    { n: "14", titulo: "Devolutiva e fechamento",                    desc: "Cada participante recebe o mapa do caminho percorrido.",                                                    desc_curta: "Devolutiva e fechamento.",           data: "2026-06-18", diaSemana: "qui" },
-  ],
-  bonus: [
-    { n: "01", titulo: "Sorteio de mentoria individual", desc: "Sessão de duas horas com Monica, sorteada entre quem concluir." },
-    { n: "02", titulo: "Lupa Jurídica", desc: "Grupo fechado de WhatsApp onde Monica comenta casos reais." },
-    { n: "03", titulo: "Ebook do programa", desc: "Material consolidado dos 14 encontros, ao final da mentoria." },
-  ],
-  citacoes: [
-    "A surpresa é sempre muito ruim.",
-    "No alto padrão, repertório técnico não substitui venda. Ele sustenta a venda.",
-    "O Lab não ensina o corretor a vender. Ensina a sustentar a venda quando a negociação começa de verdade.",
-  ],
-};
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 
-// Helpers de data — calcula status, formato BR, próximo encontro
-window.LAB_HELPERS = {
-  // Status do encontro a partir da data (em America/Sao_Paulo)
-  // - "concluido": data passou (já aconteceu)
-  // - "atual": é hoje
-  // - "futuro": ainda vai acontecer
-  status(encontro, hoje = new Date()) {
-    const [y, m, d] = encontro.data.split('-').map(Number);
-    const dataEnc = new Date(y, m - 1, d);
-    const hoje0 = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
-    if (dataEnc.getTime() === hoje0.getTime()) return 'atual';
-    if (dataEnc.getTime() < hoje0.getTime()) return 'concluido';
-    return 'futuro';
-  },
-
-  // "ter, 05 de maio"
-  formatoBR(encontro) {
-    const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-    const dias = { ter: 'terça', qui: 'quinta' };
-    const [y, m, d] = encontro.data.split('-').map(Number);
-    return `${dias[encontro.diaSemana] || encontro.diaSemana}, ${String(d).padStart(2,'0')} de ${meses[m-1]}`;
-  },
-
-  // "05 mai" — formato curto para sidebar
-  formatoCurto(encontro) {
-    const meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-    const [y, m, d] = encontro.data.split('-').map(Number);
-    return `${String(d).padStart(2,'0')} ${meses[m-1]}`;
-  },
-
-  // Próximo encontro a acontecer (atual ou primeiro futuro)
-  proximoEncontro(hoje = new Date()) {
-    const D = window.LAB_DATA;
-    for (const e of D.encontros) {
-      const s = window.LAB_HELPERS.status(e, hoje);
-      if (s === 'atual' || s === 'futuro') return e;
-    }
-    return D.encontros[D.encontros.length - 1];
-  },
-
-  // URL Google Calendar para adicionar
-  googleCalendarUrl(encontro) {
-    const D = window.LAB_DATA;
-    const [y, m, d] = encontro.data.split('-').map(Number);
-    const inicio = new Date(y, m - 1, d, 8, 0, 0);
-    const fim = new Date(inicio.getTime() + D.zoom.duracao * 60000);
-    const fmt = (dt) => dt.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    const params = new URLSearchParams({
-      action: 'TEMPLATE',
-      text: `Lab Conexão · Encontro ${encontro.n} · ${encontro.titulo}`,
-      dates: `${fmt(inicio)}/${fmt(fim)}`,
-      details: `${encontro.desc}\n\nLink Zoom: ${D.zoom.url}`,
-      location: D.zoom.url,
-      ctz: D.zoom.fuso,
-    });
-    return `https://calendar.google.com/calendar/render?${params.toString()}`;
-  },
-};
+<script src="data.js"></script>
+<script type="text/babel" src="portal-app.jsx"></script>
+</body>
+</html>
