@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Portal exclusivo da Turma Beta · Lab Conexão Imobiliária" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Lab Conexão Imobiliária · Portal Turma Beta</title>
+<style>
+/* Portal Lab Conexão Imobiliária — Turma Beta
+   Sistema visual: navy + dourado + tipografia editorial.
+   Reusa tokens do manual.css. */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --navy: #1A2942;
+  --navy-deep: #0A0F1A;
+  --navy-soft: #2A3A5C;
+  --gold: #A68B5B;
+  --gold-soft: #C8AC7E;
+  --gold-deep: #8C7449;
+  --beige: #E8DFD3;
+  --offwhite: #F5F1EA;
+  --paper: #FBF8F2;
+  --ink-90: #1A2942;
+  --ink-70: #38445C;
+  --ink-50: #6A7388;
+  --ink-30: #A8AEBC;
+  --ink-15: #D4D7DE;
+  --ink-08: #E6E8EC;
+  --line: rgba(26, 41, 66, 0.14);
+  --line-soft: rgba(26, 41, 66, 0.06);
+  --gold-line: rgba(166, 139, 91, 0.4);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Manrope', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--paper); font-family: var(--sans); color: var(--ink-90); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 300; margin: 0; letter-spacing: -0.005em; color: var(--navy); line-height: 1.1; }
+em, .italic { font-style: italic; color: var(--gold); }
+
+.eyebrow {
+  font-family: var(--sans); font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.28em;
+  font-size: 11px; color: var(--gold); display: inline-block;
+}
+
+/* ─────────────  TELA DE LOGIN  ───────────── */
+
+.login-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: var(--navy);
+  background-image: radial-gradient(ellipse at top right, rgba(166,139,91,0.18), transparent 60%),
+                    radial-gradient(ellipse at bottom left, rgba(166,139,91,0.08), transparent 50%);
+  position: relative;
+  padding: 24px;
+}
+.login-frame {
+  position: absolute; inset: 24px; border: 1px solid rgba(166,139,91,0.25); pointer-events: none;
+}
+.login-card {
+  width: 100%; max-width: 460px; padding: 56px 48px;
+  text-align: center; position: relative; z-index: 2;
+  color: var(--offwhite);
+}
+.login-card .eyebrow { color: var(--gold-soft); margin-bottom: 24px; }
+.login-card h1 {
+  font-family: var(--serif); font-size: 48px; line-height: 1.05;
+  color: var(--beige); margin-bottom: 12px;
+}
+.login-card .sub {
+  font-family: var(--serif); font-style: italic; color: var(--gold-soft);
+  font-size: 18px; margin-bottom: 40px;
+}
+.login-form { display: flex; flex-direction: column; gap: 14px; }
+.login-input {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(200,172,126,0.35);
+  color: var(--offwhite); font-family: var(--sans); font-size: 15px;
+  padding: 14px 18px; outline: none; letter-spacing: 0.04em;
+  transition: border-color 0.2s, background 0.2s;
+}
+.login-input:focus { border-color: var(--gold-soft); background: rgba(255,255,255,0.08); }
+.login-input::placeholder { color: rgba(232,223,211,0.4); }
+.login-btn {
+  background: var(--gold); color: var(--navy);
+  border: none; font-family: var(--sans); font-weight: 600; font-size: 13px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 16px 24px; cursor: pointer;
+  transition: background 0.2s;
+}
+.login-btn:hover { background: var(--gold-soft); }
+.login-error {
+  font-size: 12px; color: #E8A899; min-height: 18px; margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+.login-foot {
+  position: absolute; bottom: 32px; left: 0; right: 0; text-align: center;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(232,223,211,0.45);
+}
+
+/* ─────────────  FECHADURA (umbral)  ───────────── */
+
+.fechadura-screen {
+  position: fixed; inset: 0;
+  background: var(--navy);
+  background-image: radial-gradient(ellipse at center, rgba(166,139,91,0.10), transparent 65%);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; overflow: hidden;
+  opacity: 0; transition: opacity 0.6s ease;
+}
+.fechadura-screen.in { opacity: 1; }
+.fechadura-frame {
+  position: absolute; inset: 24px; border: 1px solid rgba(166,139,91,0.22);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.fechadura-screen.zoom .fechadura-frame { opacity: 0; }
+
+.fechadura-stage {
+  background: none; border: none; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 28px;
+  padding: 48px;
+  transition: transform 1.2s cubic-bezier(0.7, 0, 0.4, 1);
+  transform-origin: center center;
+}
+
+.fechadura-phrase {
+  font-family: var(--serif); font-weight: 400;
+  font-size: 36px; line-height: 1.15;
+  color: var(--beige);
+  text-align: center;
+  margin-bottom: 16px;
+  max-width: 520px;
+}
+.fechadura-phrase .it {
+  font-style: italic; color: var(--gold-soft);
+}
+.fechadura-screen.zoom .fechadura-phrase {
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.fechadura-stage:focus { outline: none; }
+.fechadura-stage:hover .fechadura-svg { transform: scale(1.04); filter: drop-shadow(0 0 24px rgba(200,172,126,0.5)); }
+.fechadura-stage:hover .fechadura-text { color: var(--gold-soft); letter-spacing: 0.42em; }
+
+/* o ZOOM cinematográfico — escala monstruosa para "atravessar a fechadura" */
+.fechadura-screen.zoom .fechadura-stage {
+  transform: scale(40);
+}
+.fechadura-screen.zoom .fechadura-text,
+.fechadura-screen.zoom .fechadura-hint {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fechadura-mask {
+  width: 100px; height: 140px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.fechadura-svg {
+  width: 100%; height: 100%;
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 0 12px rgba(200,172,126,0.25));
+}
+
+.fechadura-text {
+  font-family: var(--sans); font-weight: 500;
+  font-size: 13px; letter-spacing: 0.36em; text-transform: uppercase;
+  color: var(--gold);
+  transition: color 0.3s ease, letter-spacing 0.4s ease;
+}
+.fechadura-hint {
+  font-family: var(--serif); font-style: italic;
+  font-size: 13px; color: rgba(232,223,211,0.4);
+  margin-top: -20px;
+  letter-spacing: 0.04em;
+}
+
+/* fade-out do conteúdo todo no final do zoom, para transição suave para a home */
+.fechadura-screen.zoom {
+  animation: fechaduraFadeOut 1.4s ease forwards;
+}
+@keyframes fechaduraFadeOut {
+  0% { opacity: 1; }
+  60% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ─────────────  ESTRUTURA DO PORTAL  ───────────── */
+
+.portal { display: flex; min-height: 100vh; background: var(--paper); }
+.portal-main {
+  flex: 1; min-width: 0; display: flex; flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* topbar */
+.topbar {
+  height: 56px; border-bottom: 1px solid var(--line-soft);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px; background: var(--offwhite);
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--navy);
+}
+.topbar .out {
+  opacity: 0.55; cursor: pointer; transition: opacity 0.2s;
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em;
+  background: none; border: none; color: var(--navy); text-transform: uppercase;
+  padding: 4px 0;
+}
+.topbar .out:hover { opacity: 1; }
+
+/* ─────────────  SIDEBAR  ───────────── */
+
+.sidebar {
+  width: 280px; flex: none;
+  background: var(--offwhite);
+  border-right: 1px solid var(--line);
+  padding: 32px 24px; overflow-y: auto;
+  position: sticky; top: 0; height: 100vh;
+}
+.sidebar-brand {
+  padding-bottom: 24px; border-bottom: 1px solid var(--line-soft); margin-bottom: 24px;
+}
+.sidebar-brand .eyebrow { color: var(--gold); margin-bottom: 8px; font-size: 10px; }
+.sidebar-brand .name {
+  font-family: var(--serif); font-size: 22px; line-height: 1.05; color: var(--navy);
+}
+.sidebar-brand .turma {
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-50); margin-top: 10px;
+}
+.sidebar-nav-home {
+  display: block; width: 100%; text-align: left;
+  background: var(--navy); color: var(--gold-soft);
+  padding: 12px 16px; font-family: var(--sans); font-size: 11px;
+  letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
+  border: none; cursor: pointer; margin-bottom: 24px;
+  transition: background 0.2s;
+}
+.sidebar-nav-home:hover { background: var(--navy-soft); }
+.sidebar-nav-home.active { background: var(--gold); color: var(--navy); }
+
+.sidebar-nav-cal {
+  background: transparent; color: var(--navy);
+  border: 1px solid var(--line); margin-top: -16px; margin-bottom: 24px;
+}
+.sidebar-nav-cal:hover { background: rgba(166,139,91,0.08); }
+.sidebar-nav-cal.active { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+/* ─────────────  CALENDÁRIO  ───────────── */
+
+.cal-meses {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+  margin-bottom: 64px;
+}
+@media (max-width: 900px) {
+  .cal-meses { grid-template-columns: 1fr; gap: 48px; }
+}
+
+.cal-mes-head {
+  margin-bottom: 24px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.cal-mes-head .eyebrow { color: var(--gold); margin-bottom: 6px; }
+.cal-mes-head h3 {
+  font-family: var(--serif); font-style: italic; font-size: 36px;
+  font-weight: 300; color: var(--navy);
+}
+
+.cal-grid-head {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+  margin-bottom: 8px;
+}
+.cal-grid-head > div {
+  font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink-50); text-align: center; padding: 6px 0; font-weight: 500;
+}
+
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+}
+
+.cal-cell {
+  aspect-ratio: 1 / 0.95;
+  padding: 8px 8px 6px;
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; transition: all 0.15s;
+}
+.cal-cell--empty { border: none; background: transparent; }
+
+.cal-day {
+  font-family: var(--serif); font-size: 16px; font-weight: 300;
+  color: var(--ink-70); line-height: 1;
+}
+
+.cal-tag {
+  font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600; margin-top: auto;
+}
+
+/* dia com encontro — base */
+.cal-cell--encontro {
+  cursor: pointer;
+  border-color: var(--line);
+}
+.cal-cell--encontro:hover {
+  background: rgba(166,139,91,0.08);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+
+/* dia futuro com encontro */
+.cal-cell--futuro {
+  border-color: var(--gold-line);
+}
+.cal-cell--futuro .cal-day { color: var(--navy); font-weight: 400; }
+
+/* dia atual (hoje + tem encontro) */
+.cal-cell--atual {
+  background: var(--navy); border-color: var(--navy);
+}
+.cal-cell--atual .cal-day { color: var(--beige); }
+.cal-cell--atual .cal-tag { color: var(--gold-soft); }
+.cal-cell--atual:hover {
+  background: var(--navy-soft);
+  transform: translateY(-1px);
+}
+
+/* dia já passado com encontro */
+.cal-cell--concluido {
+  opacity: 0.55;
+  background: var(--offwhite);
+}
+.cal-cell--concluido .cal-day { color: var(--ink-50); text-decoration: line-through; text-decoration-color: var(--ink-30); }
+.cal-cell--concluido .cal-tag { color: var(--ink-50); }
+
+/* hoje sem encontro — só destaque sutil */
+.cal-cell--hoje:not(.cal-cell--encontro) {
+  border-color: var(--gold-line); border-width: 1px;
+}
+.cal-cell--hoje:not(.cal-cell--encontro) .cal-day {
+  color: var(--gold);
+}
+
+/* legenda */
+.cal-legenda {
+  display: flex; justify-content: center; gap: 32px;
+  padding: 24px; border-top: 1px solid var(--line-soft);
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-50);
+}
+.cal-legenda > span {
+  display: flex; align-items: center; gap: 8px;
+}
+.cal-dot {
+  display: inline-block; width: 12px; height: 12px;
+  border: 1px solid var(--line);
+}
+.cal-dot--concluido { background: var(--offwhite); border-color: var(--ink-30); }
+.cal-dot--atual { background: var(--navy); border-color: var(--navy); }
+.cal-dot--futuro { border-color: var(--gold); border-width: 1px; }
+
+.sidebar-group { margin-bottom: 18px; }
+.sidebar-group-title {
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  font-weight: 600; color: var(--navy); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; user-select: none;
+}
+.sidebar-group-title .arrow { font-size: 8px; color: var(--gold); transition: transform 0.2s; }
+.sidebar-group.closed .arrow { transform: rotate(-90deg); }
+
+.sidebar-list { list-style: none; margin: 0; padding: 0 0 0 12px; display: flex; flex-direction: column; gap: 2px; }
+
+/* lista plana: encontros são blocos largos com sub-itens dentro */
+.sidebar-list--flat { padding: 0; gap: 1px; }
+.sidebar-block { list-style: none; }
+
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 10px; font-size: 12px; line-height: 1.3;
+  cursor: pointer; transition: background 0.15s;
+  border-left: 2px solid transparent; margin-left: -12px; padding-left: 22px;
+}
+.sidebar-list--flat .sidebar-item {
+  margin-left: 0; padding: 11px 12px 11px 14px;
+  border-left: 2px solid transparent;
+  align-items: flex-start;
+}
+.sidebar-item:hover { background: rgba(166,139,91,0.08); }
+.sidebar-item.active {
+  background: rgba(26,41,66,0.06); border-left-color: var(--gold);
+  font-weight: 600; color: var(--navy);
+}
+.sidebar-item.concluido { opacity: 0.55; }
+.sidebar-item .num { font-family: var(--serif); font-style: italic; color: var(--gold); font-size: 13px; flex: none; min-width: 22px; }
+.sidebar-list--flat .sidebar-item .num { display: none; }
+.sidebar-item .ttl { color: var(--ink-90); display: flex; flex-direction: column; gap: 1px; line-height: 1.25; flex: 1; min-width: 0; }
+.sidebar-item .ttl .k {
+  font-family: var(--sans); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-50); font-weight: 600;
+}
+.sidebar-item.atual .ttl .k { color: var(--gold); }
+.sidebar-item .ttl > span:last-child {
+  font-size: 12px; color: var(--ink-90); font-weight: 400;
+  white-space: normal; word-break: break-word;
+}
+.sidebar-item.active .ttl > span:last-child { color: var(--navy); font-weight: 600; }
+.sidebar-item .dot {
+  width: 7px; height: 7px; border-radius: 50%; flex: none;
+  background: var(--ink-15); margin-top: 6px;
+}
+.sidebar-item.atual .dot { background: var(--gold); box-shadow: 0 0 0 3px rgba(166,139,91,0.2); }
+.sidebar-item.concluido .dot { background: var(--ink-30); }
+.sidebar-item.concluido .num { opacity: 0.5; }
+
+.sidebar-item .caret {
+  font-size: 10px; color: var(--ink-50); flex: none;
+  padding: 0 4px; align-self: center;
+  transition: color 0.2s;
+}
+.sidebar-item .caret:hover { color: var(--gold); }
+
+/* sub-itens (material, resumo) */
+.sidebar-sublist {
+  list-style: none; margin: 0; padding: 4px 0 8px 36px;
+  display: flex; flex-direction: column; gap: 1px;
+  background: rgba(26,41,66,0.03);
+}
+.sidebar-sub {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px; font-size: 11px; color: var(--ink-70);
+  cursor: pointer; transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.02em;
+}
+.sidebar-sub:hover { color: var(--navy); background: rgba(166,139,91,0.06); }
+.sidebar-sub.active { color: var(--navy); font-weight: 600; }
+.sidebar-sub .bullet { color: var(--gold); font-size: 14px; line-height: 0.8; }
+
+/* ─────────────  HOME — HERO  ───────────── */
+
+.hero {
+  display: grid; grid-template-columns: 1.05fr 0.95fr;
+  min-height: 460px; position: relative;
+}
+.hero--solo { grid-template-columns: 1fr; }
+.hero--solo .hero-left { padding: 80px 64px 88px; }
+.hero--solo .hero-left h1 { font-size: 64px; max-width: 720px; }
+.hero--solo .hero-left p { max-width: 540px; }
+.hero--solo .hero-quote { max-width: 540px; }
+.hero-left {
+  background: var(--navy); color: var(--offwhite);
+  padding: 64px 56px 72px; position: relative;
+  background-image: radial-gradient(ellipse at top right, rgba(166,139,91,0.20), transparent 65%);
+}
+.hero-frame {
+  position: absolute; inset: 16px; border: 1px solid rgba(166,139,91,0.32); pointer-events: none;
+}
+.hero-eyebrow { color: var(--gold-soft); margin-bottom: 36px; }
+.hero-left h1 {
+  font-size: 56px; color: var(--beige); line-height: 1.02; margin-bottom: 20px;
+}
+.hero-left h1 .it { font-style: italic; font-weight: 300; color: var(--beige); }
+.hero-left p {
+  font-size: 14px; line-height: 1.65; opacity: 0.82;
+  max-width: 420px; margin: 0 0 28px;
+}
+.hero-quote {
+  font-family: var(--serif); font-style: italic; color: var(--gold-soft);
+  font-size: 17px; line-height: 1.4; max-width: 380px;
+  padding-top: 24px; border-top: 1px solid rgba(200,172,126,0.25);
+  margin-top: 32px;
+}
+.hero-right {
+  background: var(--navy-deep);
+  position: relative; overflow: hidden;
+  display: flex; align-items: stretch; justify-content: stretch;
+}
+.hero-right img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: contrast(1.05) brightness(0.95);
+}
+.hero-credit {
+  position: absolute; bottom: 16px; right: 16px;
+  font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(232,223,211,0.6); font-weight: 500;
+  padding: 4px 8px; background: rgba(0,0,0,0.4);
+  pointer-events: none;
+}
+
+/* ─────────────  HOME — PRÓXIMO + ÚLTIMO  ───────────── */
+
+.section { padding: 64px 56px; }
+.section-paper { background: var(--paper); }
+.section-paper--first { padding-top: 88px; }
+.section-offwhite { background: var(--offwhite); }
+
+.section-head {
+  text-align: center; margin-bottom: 40px;
+}
+.section-head h2 {
+  font-size: 34px; color: var(--navy);
+}
+.section-head h2 .it { font-style: italic; color: var(--gold); }
+.section-head .divider {
+  width: 60px; height: 1px; background: var(--gold-line);
+  margin: 18px auto;
+}
+.section-head p {
+  font-size: 13px; color: var(--ink-50); max-width: 460px; margin: 0 auto;
+  line-height: 1.6;
+}
+
+.cards-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px; max-width: 920px; margin: 0 auto;
+}
+.card {
+  background: var(--paper); border: 1px solid var(--line);
+  padding: 32px 32px 28px; position: relative;
+  display: flex; flex-direction: column;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.card:hover { border-color: var(--gold-line); transform: translateY(-2px); }
+.card-filete::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--gold);
+}
+.card .pill {
+  display: inline-block; align-self: flex-start;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 600; padding: 5px 10px; margin-bottom: 16px;
+}
+.pill--gold { background: var(--navy); color: var(--gold-soft); }
+.pill--outline { border: 1px solid var(--line); color: var(--ink-50); }
+.pill--ok { background: rgba(106,115,136,0.15); color: var(--ink-50); }
+
+.card .num {
+  font-family: var(--serif); font-size: 28px; color: var(--navy); margin-bottom: 4px;
+}
+.card .ttl {
+  font-family: var(--serif); font-size: 22px; line-height: 1.15; font-style: italic;
+  font-weight: 400; color: var(--navy); margin-bottom: 14px;
+}
+.card .desc {
+  font-size: 12px; color: var(--ink-70); line-height: 1.6; margin-bottom: 20px;
+  flex: 1;
+}
+.card .meta {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-50); margin-bottom: 14px;
+}
+.card .arrow {
+  font-family: var(--sans); font-size: 12px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--navy); font-weight: 600;
+  margin-top: auto;
+}
+
+/* ─────────────  HOME — JORNADA  ───────────── */
+
+.journey {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px;
+  max-width: 1080px; margin: 0 auto;
+  border: 1px solid var(--line); background: var(--line);
+}
+.journey-item {
+  background: var(--paper); padding: 18px 22px;
+  display: flex; align-items: center; gap: 14px;
+  cursor: pointer; transition: background 0.15s;
+  min-height: 64px;
+}
+.journey-item:hover { background: var(--offwhite); }
+.journey-item.atual { background: var(--navy); color: var(--offwhite); }
+.journey-item.atual:hover { background: var(--navy-soft); }
+.journey-item.concluido { opacity: 0.55; }
+.journey-item .num {
+  font-family: var(--serif); font-style: italic; font-size: 18px;
+  color: var(--gold); flex: none; min-width: 28px;
+}
+.journey-item.atual .num { color: var(--gold-soft); }
+.journey-item .ttl { font-size: 12px; color: var(--ink-90); flex: 1; line-height: 1.3; display: flex; flex-direction: column; gap: 2px; }
+.journey-item .ttl .k {
+  font-family: var(--sans); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-50); font-weight: 500;
+}
+.journey-item.atual .ttl .k { color: var(--gold-soft); }
+.journey-item.concluido .ttl .k { opacity: 0.7; }
+.journey-item.atual .ttl { color: var(--offwhite); }
+.journey-item .data {
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-50); flex: none;
+}
+.journey-item.atual .data { color: var(--gold-soft); }
+
+.signature {
+  text-align: center; padding: 56px 24px 40px;
+  font-family: var(--serif); font-style: italic; font-size: 14px;
+  color: var(--ink-50); letter-spacing: 0.02em;
+}
+
+/* ─────────────  PÁGINA DE ENCONTRO  ───────────── */
+
+.encontro-page { padding: 64px 64px 96px; max-width: 880px; margin: 0 auto; }
+.crumbs {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-50); margin-bottom: 32px;
+}
+.crumbs .home-link { color: var(--gold); cursor: pointer; }
+.crumbs .home-link:hover { color: var(--gold-soft); }
+.crumbs .sep { margin: 0 10px; opacity: 0.5; }
+
+.encontro-head {
+  display: grid; grid-template-columns: auto 1fr; gap: 48px;
+  align-items: end; padding-bottom: 32px; border-bottom: 1px solid var(--line);
+  margin-bottom: 48px;
+}
+.encontro-num {
+  font-family: var(--serif); font-style: italic; font-size: 96px;
+  line-height: 1; color: var(--gold); font-weight: 300;
+}
+.encontro-meta { padding-bottom: 12px; }
+.encontro-meta .eyebrow { color: var(--gold); margin-bottom: 14px; }
+.encontro-meta h1 {
+  font-size: 44px; line-height: 1.05; color: var(--navy); margin-bottom: 14px;
+}
+.encontro-meta .data {
+  font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-70);
+}
+
+/* status stripe */
+.status-stripe {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 24px; margin-bottom: 40px;
+  border: 1px solid var(--line);
+}
+.status-stripe.atual { border-color: var(--gold); background: rgba(166,139,91,0.06); }
+.status-stripe.concluido { border-color: var(--line); background: var(--offwhite); }
+.status-stripe .label {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 600; color: var(--navy);
+}
+.status-stripe.atual .label { color: var(--gold); }
+.status-stripe .text {
+  font-size: 13px; color: var(--ink-70); line-height: 1.5; flex: 1;
+}
+
+/* descrição */
+.encontro-desc {
+  font-family: var(--serif); font-size: 22px; line-height: 1.45;
+  color: var(--ink-70); margin-bottom: 56px; max-width: 720px;
+  font-weight: 300;
+}
+
+/* ações */
+.actions {
+  display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 56px;
+}
+.btn {
+  font-family: var(--sans); font-size: 12px; letter-spacing: 0.16em;
+  text-transform: uppercase; font-weight: 600;
+  padding: 16px 28px; border: none; cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.btn--primary { background: var(--navy); color: var(--gold-soft); }
+.btn--primary:hover { background: var(--navy-soft); }
+.btn--gold { background: var(--gold); color: var(--navy); }
+.btn--gold:hover { background: var(--gold-soft); }
+.btn--ghost {
+  background: transparent; color: var(--navy); border: 1px solid var(--line);
+}
+.btn--ghost:hover { border-color: var(--gold); color: var(--gold-deep); }
+.btn--disabled {
+  background: var(--ink-08); color: var(--ink-50); cursor: not-allowed; pointer-events: none;
+}
+
+/* materiais e resumo */
+.block {
+  margin-bottom: 56px; padding-bottom: 48px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.block:last-child { border: none; }
+.block-head {
+  display: flex; align-items: baseline; gap: 16px; margin-bottom: 24px;
+}
+.block-head h2 { font-size: 28px; color: var(--navy); }
+.block-head h2 .it { font-style: italic; color: var(--gold); }
+.block-head .eyebrow { color: var(--gold); }
+
+.material-list { list-style: none; margin: 0; padding: 0; }
+.material-item {
+  display: flex; align-items: center; gap: 18px;
+  padding: 16px 0; border-bottom: 1px solid var(--line-soft);
+  cursor: pointer; transition: background 0.15s;
+}
+.material-item:hover { background: rgba(166,139,91,0.04); padding-left: 12px; padding-right: 12px; margin: 0 -12px; }
+.material-item .icon {
+  width: 36px; height: 36px; flex: none; border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 11px; font-style: italic; color: var(--gold);
+  letter-spacing: 0.05em;
+}
+.material-item .info { flex: 1; }
+.material-item .info .name { font-size: 14px; color: var(--navy); margin-bottom: 2px; }
+.material-item .info .meta { font-size: 11px; color: var(--ink-50); letter-spacing: 0.04em; }
+.material-item .arrow { font-size: 14px; color: var(--gold); }
+
+.resumo-body {
+  font-size: 15px; line-height: 1.75; color: var(--ink-70);
+  max-width: 640px;
+}
+.resumo-body p { margin: 0 0 16px; }
+
+.empty {
+  font-family: var(--serif); font-style: italic; font-size: 16px;
+  color: var(--ink-50); padding: 24px 0;
+}
+
+/* navegação anterior/próximo */
+.encontro-nav {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--line);
+}
+.nav-item {
+  padding: 20px 24px; border: 1px solid var(--line); cursor: pointer;
+  transition: border-color 0.2s;
+}
+.nav-item:hover { border-color: var(--gold); }
+.nav-item.disabled { opacity: 0.4; pointer-events: none; }
+.nav-item .dir {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-50); margin-bottom: 8px;
+}
+.nav-item .ttl {
+  font-family: var(--serif); font-style: italic; font-size: 18px;
+  color: var(--navy);
+}
+.nav-item.next { text-align: right; }
+
+/* responsividade */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-left { padding: 40px 28px; }
+  .hero-left h1 { font-size: 40px; }
+  .hero-right { min-height: 220px; }
+  .section { padding: 40px 24px; }
+  .cards-row { grid-template-columns: 1fr; max-width: 100%; }
+  .journey { grid-template-columns: 1fr; }
+  .encontro-page { padding: 32px 24px 64px; }
+  .encontro-head { grid-template-columns: 1fr; gap: 16px; align-items: start; }
+  .encontro-num { font-size: 64px; }
+  .encontro-meta h1 { font-size: 32px; }
+  .encontro-desc { font-size: 18px; }
+  .encontro-nav { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<script>
+// Conteúdo real da Turma Beta — Lab Conexão Imobiliária
+// Fonte: página oficial Turma Beta · Nível Essencial
+
+window.LAB_DATA = {
+  programa: {
+    titulo: "Nível Essencial",
+    formato: "Online ao vivo",
+    frequencia: "Terças e quintas, 8h",
+    inicio: "Maio de 2026",
+    encontros: 14,
+  },
+  aluna: {
+    nome: "Monica",
+    saudacao: "BEM-VINDA",
+    progresso: { atual: 4, total: 14 },
+  },
+  zoom: {
+    url: "https://us06web.zoom.us/j/3986232427?pwd=HEYXvcaoeb32r0AC0tUrb1N7tLMPg7.1",
+    horario: "08:00",
+    duracao: 90, // minutos
+    fuso: "America/Sao_Paulo",
+  },
+  encontros: [
+    { n: "01", titulo: "Diagnóstico e alinhamento",                  desc: "Onde cada participante está. Anatomia da decisão: o perfil de quem move o mercado de luxo.",                desc_curta: "Diagnóstico e alinhamento.",         data: "2026-05-05", diaSemana: "ter" },
+    { n: "02", titulo: "O imóvel e a matrícula",                     desc: "Como nasce uma matrícula. Cartórios envolvidos: tabelionato de notas e registro de imóveis.",              desc_curta: "Como nasce uma matrícula.",          data: "2026-05-07", diaSemana: "qui" },
+    { n: "03", titulo: "Esse imóvel vai ser vendido — parte 1",      desc: "Pilares de tensão. Mapeamento e antecipação.",                                                              desc_curta: "Mapeamento e antecipação.",          data: "2026-05-12", diaSemana: "ter" },
+    { n: "04", titulo: "Esse imóvel vai ser vendido — parte 2",      desc: "Proposta e escritura. Continuação dos pilares.",                                                            desc_curta: "Proposta e escritura.",              data: "2026-05-14", diaSemana: "qui" },
+    { n: "05", titulo: "Engenharia do pagamento — parte 1",          desc: "Financiamento, consórcio, FGTS, prazos.",                                                                   desc_curta: "Financiamento, consórcio, FGTS.",    data: "2026-05-19", diaSemana: "ter" },
+    { n: "06", titulo: "Engenharia do pagamento — parte 2",          desc: "Alienação fiduciária, interveniente quitante.",                                                             desc_curta: "Alienação fiduciária.",              data: "2026-05-21", diaSemana: "qui" },
+    { n: "07", titulo: "Compromisso de compra e venda",              desc: "O que é e como funciona.",                                                                                  desc_curta: "Compromisso de compra e venda.",     data: "2026-05-26", diaSemana: "ter" },
+    { n: "08", titulo: "Documentos e diligência imobiliária",        desc: "Documentação de praxe. Perfil do advogado do vendedor e do comprador.",                                     desc_curta: "Documentação e diligência.",         data: "2026-05-28", diaSemana: "qui" },
+    { n: "09", titulo: "Comissão",                                   desc: "Legislação, jurisprudência e blindagem jurídica da comissão.",                                              desc_curta: "Blindagem jurídica da comissão.",    data: "2026-06-02", diaSemana: "ter" },
+    { n: "10", titulo: "ITBI e custas",                              desc: "O que é e como calcular.",                                                                                  desc_curta: "ITBI e custas.",                     data: "2026-06-04", diaSemana: "qui" },
+    { n: "11", titulo: "Pesquisa em portais e IA",                   desc: "Aula prática. Uso e limites da inteligência artificial.",                                                   desc_curta: "Portais e IA.",                      data: "2026-06-09", diaSemana: "ter" },
+    { n: "12", titulo: "Due diligence do comprador",                 desc: "Precauções visando a segurança do corretor.",                                                               desc_curta: "Due diligence.",                     data: "2026-06-11", diaSemana: "qui" },
+    { n: "13", titulo: "Simulação integrada",                        desc: "Um caso completo do início ao registro. O grupo conduz.",                                                   desc_curta: "Simulação integrada.",               data: "2026-06-16", diaSemana: "ter" },
+    { n: "14", titulo: "Devolutiva e fechamento",                    desc: "Cada participante recebe o mapa do caminho percorrido.",                                                    desc_curta: "Devolutiva e fechamento.",           data: "2026-06-18", diaSemana: "qui" },
+  ],
+  bonus: [
+    { n: "01", titulo: "Sorteio de mentoria individual", desc: "Sessão de duas horas com Monica, sorteada entre quem concluir." },
+    { n: "02", titulo: "Lupa Jurídica", desc: "Grupo fechado de WhatsApp onde Monica comenta casos reais." },
+    { n: "03", titulo: "Ebook do programa", desc: "Material consolidado dos 14 encontros, ao final da mentoria." },
+  ],
+  citacoes: [
+    "A surpresa é sempre muito ruim.",
+    "No alto padrão, repertório técnico não substitui venda. Ele sustenta a venda.",
+    "O Lab não ensina o corretor a vender. Ensina a sustentar a venda quando a negociação começa de verdade.",
+  ],
+};
+
+// Helpers de data — calcula status, formato BR, próximo encontro
+window.LAB_HELPERS = {
+  // Status do encontro a partir da data (em America/Sao_Paulo)
+  // - "concluido": data passou (já aconteceu)
+  // - "atual": é hoje
+  // - "futuro": ainda vai acontecer
+  status(encontro, hoje = new Date()) {
+    const [y, m, d] = encontro.data.split('-').map(Number);
+    const dataEnc = new Date(y, m - 1, d);
+    const hoje0 = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+    if (dataEnc.getTime() === hoje0.getTime()) return 'atual';
+    if (dataEnc.getTime() < hoje0.getTime()) return 'concluido';
+    return 'futuro';
+  },
+
+  // "ter, 05 de maio"
+  formatoBR(encontro) {
+    const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    const dias = { ter: 'terça', qui: 'quinta' };
+    const [y, m, d] = encontro.data.split('-').map(Number);
+    return `${dias[encontro.diaSemana] || encontro.diaSemana}, ${String(d).padStart(2,'0')} de ${meses[m-1]}`;
+  },
+
+  // "05 mai" — formato curto para sidebar
+  formatoCurto(encontro) {
+    const meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+    const [y, m, d] = encontro.data.split('-').map(Number);
+    return `${String(d).padStart(2,'0')} ${meses[m-1]}`;
+  },
+
+  // Próximo encontro a acontecer (atual ou primeiro futuro)
+  proximoEncontro(hoje = new Date()) {
+    const D = window.LAB_DATA;
+    for (const e of D.encontros) {
+      const s = window.LAB_HELPERS.status(e, hoje);
+      if (s === 'atual' || s === 'futuro') return e;
+    }
+    return D.encontros[D.encontros.length - 1];
+  },
+
+  // URL Google Calendar para adicionar
+  googleCalendarUrl(encontro) {
+    const D = window.LAB_DATA;
+    const [y, m, d] = encontro.data.split('-').map(Number);
+    const inicio = new Date(y, m - 1, d, 8, 0, 0);
+    const fim = new Date(inicio.getTime() + D.zoom.duracao * 60000);
+    const fmt = (dt) => dt.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: `Lab Conexão · Encontro ${encontro.n} · ${encontro.titulo}`,
+      dates: `${fmt(inicio)}/${fmt(fim)}`,
+      details: `${encontro.desc}\n\nLink Zoom: ${D.zoom.url}`,
+      location: D.zoom.url,
+      ctz: D.zoom.fuso,
+    });
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  },
+};
+
+</script>
+
+<script type="text/babel">
+// Portal Lab Conexão Imobiliária — Turma Beta
+// Arquitetura: tela de senha → portal logado (Home + páginas de encontro)
+
+const SENHA_CORRETA = "beta2026";
+const STORAGE_KEY = "lab_portal_auth_v1";
+const ROUTE_KEY = "lab_portal_route_v1";
+
+/* ─────────────  AUTH  ───────────── */
+
+const Login = ({ onSuccess }) => {
+  const [senha, setSenha] = React.useState("");
+  const [erro, setErro] = React.useState("");
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (senha.trim() === SENHA_CORRETA) {
+      localStorage.setItem(STORAGE_KEY, "1");
+      onSuccess();
+    } else {
+      setErro("Senha incorreta. Confere com o grupo.");
+    }
+  };
+
+  return (
+    <div className="login-screen">
+      <div className="login-frame" />
+      <div className="login-card">
+        <div className="eyebrow">Lab · Conexão Imobiliária</div>
+        <h1>A negociação<br/><em>começa aqui.</em></h1>
+        <div className="sub">Portal da Turma Beta</div>
+        <form className="login-form" onSubmit={submit}>
+          <input
+            type="password"
+            className="login-input"
+            placeholder="Senha"
+            value={senha}
+            onChange={(e) => { setSenha(e.target.value); setErro(""); }}
+            autoFocus
+          />
+          <button type="submit" className="login-btn">Entrar</button>
+          <div className="login-error">{erro}</div>
+        </form>
+      </div>
+      <div className="login-foot">
+        Acesso restrito · Turma Beta · por Monica Helena Moreira Pires
+      </div>
+    </div>
+  );
+};
+
+/* ─────────────  SIDEBAR  ───────────── */
+
+const Sidebar = ({ rota, navegar }) => {
+  const D = window.LAB_DATA;
+  const H = window.LAB_HELPERS;
+
+  // Encontro aberto na sidebar (mostra sub-itens). Por padrão, o que estiver na rota.
+  const proximo = H.proximoEncontro();
+  const expandidoInicial = rota.tipo === 'encontro' ? rota.n : proximo.n;
+  const [expandido, setExpandido] = React.useState(expandidoInicial);
+
+  // Quando rota muda para outro encontro, expande ele automaticamente
+  React.useEffect(() => {
+    if (rota.tipo === 'encontro') setExpandido(rota.n);
+  }, [rota]);
+
+  const toggle = (n) => setExpandido(prev => prev === n ? null : n);
+
+  return (
+    <aside className="sidebar">
+      <div className="sidebar-brand">
+        <div className="eyebrow">Lab</div>
+        <div className="name">Conexão<br/>Imobiliária</div>
+        <div className="turma">Turma Beta · Essencial</div>
+      </div>
+
+      <button
+        className={`sidebar-nav-home ${rota.tipo === 'home' ? 'active' : ''}`}
+        onClick={() => navegar({ tipo: 'home' })}
+      >
+        Página inicial
+      </button>
+
+      <button
+        className={`sidebar-nav-home sidebar-nav-cal ${rota.tipo === 'calendario' ? 'active' : ''}`}
+        onClick={() => navegar({ tipo: 'calendario' })}
+      >
+        Calendário
+      </button>
+
+      <ul className="sidebar-list sidebar-list--flat">
+        {D.encontros.map((e) => {
+          const status = H.status(e);
+          const aberto = expandido === e.n;
+          const ativo = rota.tipo === 'encontro' && rota.n === e.n;
+          return (
+            <li key={e.n} className="sidebar-block">
+              <div
+                className={`sidebar-item ${status} ${ativo ? 'active' : ''}`}
+                onClick={() => { navegar({ tipo: 'encontro', n: e.n }); setExpandido(e.n); }}
+              >
+                <span className="dot"></span>
+                <span className="num">{e.n}</span>
+                <span className="ttl">
+                  <span className="k">Encontro {e.n}</span>
+                  <span>{e.titulo.split('—')[0].trim()}{e.titulo.includes('—') ? ` — ${e.titulo.split('—')[1].trim()}` : ''}</span>
+                </span>
+                <span
+                  className="caret"
+                  onClick={(ev) => { ev.stopPropagation(); toggle(e.n); }}
+                >{aberto ? '▾' : '▸'}</span>
+              </div>
+              {aberto && (
+                <ul className="sidebar-sublist">
+                  <li
+                    className={`sidebar-sub ${rota.tipo === 'encontro' && rota.sub === 'material' ? 'active' : ''}`}
+                    onClick={() => navegar({ tipo: 'encontro', n: e.n, sub: 'material' })}
+                  >
+                    <span className="bullet">·</span>
+                    <span>Material preparatório</span>
+                  </li>
+                  <li
+                    className={`sidebar-sub ${rota.tipo === 'encontro' && rota.sub === 'resumo' ? 'active' : ''}`}
+                    onClick={() => navegar({ tipo: 'encontro', n: e.n, sub: 'resumo' })}
+                  >
+                    <span className="bullet">·</span>
+                    <span>Resumo</span>
+                  </li>
+                </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </aside>
+  );
+};
+
+/* ─────────────  HOME  ───────────── */
+
+const Home = ({ navegar }) => {
+  const D = window.LAB_DATA;
+  const H = window.LAB_HELPERS;
+  const proximo = H.proximoEncontro();
+
+  // anterior = último concluído antes do próximo
+  const idxProx = D.encontros.findIndex(e => e.n === proximo.n);
+  const anterior = idxProx > 0 ? D.encontros[idxProx - 1] : null;
+  const statusProx = H.status(proximo);
+
+  return (
+    <>
+      <section className="section section-paper section-paper--first">
+        <div className="section-head">
+          <h2>Por onde <span className="it">começar</span></h2>
+          <div className="divider" />
+          <p>Próximo encontro à frente. Material do encontro anterior ainda disponível.</p>
+        </div>
+
+        <div className="cards-row">
+          {/* Próximo (ou atual) */}
+          <article className="card card-filete" onClick={() => navegar({ tipo: 'encontro', n: proximo.n })}>
+            <span className={`pill pill--gold`}>
+              {statusProx === 'atual' ? `Hoje · ${H.formatoCurto(proximo)}` : `Próximo · ${H.formatoCurto(proximo)}`}
+            </span>
+            <div className="num">Encontro {proximo.n}</div>
+            <div className="ttl">{proximo.titulo.replace('—', '—\n')}</div>
+            <div className="desc">{proximo.desc_curta} {proximo.desc.split('.')[1] ? proximo.desc.split('.')[1] + '.' : ''}</div>
+            <div className="arrow">{statusProx === 'atual' ? 'Entrar na sala →' : 'Ver detalhes →'}</div>
+          </article>
+
+          {/* Anterior */}
+          {anterior ? (
+            <article className="card" onClick={() => navegar({ tipo: 'encontro', n: anterior.n })}>
+              <span className="pill pill--outline">Anterior · {H.formatoCurto(anterior)}</span>
+              <div className="num">Encontro {anterior.n}</div>
+              <div className="ttl">{anterior.titulo.replace('—', '—\n')}</div>
+              <div className="desc">{anterior.desc_curta} Material e resumo disponíveis.</div>
+              <div className="arrow">Ver materiais →</div>
+            </article>
+          ) : (
+            <article className="card">
+              <span className="pill pill--outline">Em breve</span>
+              <div className="num">—</div>
+              <div className="ttl italic">A jornada começa<br/>no encontro 01.</div>
+              <div className="desc">Os materiais ficam disponíveis após cada encontro.</div>
+            </article>
+          )}
+        </div>
+      </section>
+
+      <section className="section section-offwhite">
+        <div className="section-head">
+          <h2>A jornada <span className="it">completa</span></h2>
+          <div className="divider" />
+          <p>Quatorze encontros, terças e quintas, 8h. Maio e junho.</p>
+        </div>
+
+        <div className="journey">
+          {D.encontros.map((e) => {
+            const s = H.status(e);
+            return (
+              <div
+                key={e.n}
+                className={`journey-item ${s}`}
+                onClick={() => navegar({ tipo: 'encontro', n: e.n })}
+              >
+                <span className="num">{e.n}</span>
+                <span className="ttl"><span className="k">Encontro</span> {e.titulo.split('—')[0].trim()}{e.titulo.includes('—') ? ` (${e.titulo.split('—')[1].trim()})` : ''}</span>
+                <span className="data">{H.formatoCurto(e)}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="signature">por Monica Helena Moreira Pires</div>
+      </section>
+    </>
+  );
+};
+
+/* ─────────────  PÁGINA DE CALENDÁRIO  ───────────── */
+
+const Calendario = ({ navegar }) => {
+  const D = window.LAB_DATA;
+  const H = window.LAB_HELPERS;
+
+  // Mapa "AAAA-MM-DD" → encontro
+  const encPorData = {};
+  D.encontros.forEach(e => { encPorData[e.data] = e; });
+
+  // Status atual (para hoje)
+  const hoje = new Date();
+  const hojeISO = `${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,'0')}-${String(hoje.getDate()).padStart(2,'0')}`;
+
+  // Renderiza um mês
+  const renderMes = (ano, mesIdx /* 0-based */, nomeMes) => {
+    const primeiroDia = new Date(ano, mesIdx, 1).getDay(); // 0=dom
+    const totalDias = new Date(ano, mesIdx + 1, 0).getDate();
+    const cells = [];
+    for (let i = 0; i < primeiroDia; i++) cells.push(null);
+    for (let d = 1; d <= totalDias; d++) cells.push(d);
+    while (cells.length < 42) cells.push(null);
+
+    return (
+      <div className="cal-mes" key={nomeMes}>
+        <div className="cal-mes-head">
+          <div className="eyebrow">{ano}</div>
+          <h3>{nomeMes}</h3>
+        </div>
+        <div className="cal-grid-head">
+          {['dom','seg','ter','qua','qui','sex','sáb'].map(d => <div key={d}>{d}</div>)}
+        </div>
+        <div className="cal-grid">
+          {cells.map((d, i) => {
+            if (d === null) return <div key={i} className="cal-cell cal-cell--empty" />;
+            const iso = `${ano}-${String(mesIdx+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            const enc = encPorData[iso];
+            const ehHoje = iso === hojeISO;
+            const status = enc ? H.status(enc) : null;
+            const cls = [
+              'cal-cell',
+              enc ? 'cal-cell--encontro' : '',
+              status ? `cal-cell--${status}` : '',
+              ehHoje ? 'cal-cell--hoje' : '',
+            ].filter(Boolean).join(' ');
+
+            return (
+              <div
+                key={i}
+                className={cls}
+                onClick={() => enc && navegar({ tipo: 'encontro', n: enc.n })}
+              >
+                <span className="cal-day">{String(d).padStart(2,'0')}</span>
+                {enc && (
+                  <span className="cal-tag">Enc {enc.n}</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="encontro-page" style={{ maxWidth: 1080 }}>
+      <div className="crumbs">
+        <span className="home-link" onClick={() => navegar({ tipo: 'home' })}>Página inicial</span>
+        <span className="sep">·</span>
+        <span>Calendário</span>
+      </div>
+
+      <header style={{ marginBottom: 56, textAlign: 'center' }}>
+        <div className="eyebrow" style={{ marginBottom: 18 }}>Turma Beta · Maio e junho de 2026</div>
+        <h1 style={{ fontSize: 48, marginBottom: 12 }}>Quatorze encontros, <span className="italic">oito semanas.</span></h1>
+        <p style={{ color: 'var(--ink-50)', fontSize: 14, maxWidth: 480, margin: '0 auto', lineHeight: 1.6 }}>
+          Terças e quintas, 8h. Clique em qualquer dia destacado para abrir o encontro.
+        </p>
+      </header>
+
+      <div className="cal-meses">
+        {renderMes(2026, 4, 'Maio')}
+        {renderMes(2026, 5, 'Junho')}
+      </div>
+
+      <div className="cal-legenda">
+        <span><span className="cal-dot cal-dot--concluido"></span> Concluído</span>
+        <span><span className="cal-dot cal-dot--atual"></span> Hoje</span>
+        <span><span className="cal-dot cal-dot--futuro"></span> Programado</span>
+      </div>
+    </div>
+  );
+};
+
+/* ─────────────  PÁGINA DE ENCONTRO  ───────────── */
+
+const PaginaEncontro = ({ n, sub, navegar }) => {
+  const D = window.LAB_DATA;
+  const H = window.LAB_HELPERS;
+  const idx = D.encontros.findIndex(e => e.n === n);
+
+  // Rolar até a âncora quando sub muda
+  React.useEffect(() => {
+    if (!sub) return;
+    const id = sub === 'material' ? 'sec-material' : sub === 'resumo' ? 'sec-resumo' : null;
+    if (!id) return;
+    const t = setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 40;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }, 100);
+    return () => clearTimeout(t);
+  }, [sub, n]);
+
+  if (idx === -1) {
+    return <div style={{ padding: 64 }}>Encontro não encontrado.</div>;
+  }
+  const enc = D.encontros[idx];
+  const status = H.status(enc);
+  const prev = idx > 0 ? D.encontros[idx - 1] : null;
+  const next = idx < D.encontros.length - 1 ? D.encontros[idx + 1] : null;
+
+  // Stripe de status
+  let stripe;
+  if (status === 'atual') {
+    stripe = (
+      <div className="status-stripe atual">
+        <span className="label">★ Hoje</span>
+        <span className="text">A sala abre às 8h. Entre pelo botão abaixo no horário.</span>
+      </div>
+    );
+  } else if (status === 'futuro') {
+    stripe = (
+      <div className="status-stripe">
+        <span className="label">Próximo encontro</span>
+        <span className="text">Adicione no Google Calendar para receber lembrete antes da hora.</span>
+      </div>
+    );
+  } else {
+    stripe = (
+      <div className="status-stripe concluido">
+        <span className="label">✓ Concluído</span>
+        <span className="text">Material e resumo disponíveis abaixo.</span>
+      </div>
+    );
+  }
+
+  // Ações: zoom + calendar para futuros/atuais; nada de zoom para concluídos
+  const podeEntrar = status === 'atual';
+  const ehFuturo = status === 'futuro' || status === 'atual';
+
+  return (
+    <div className="encontro-page">
+      <div className="crumbs">
+        <span className="home-link" onClick={() => navegar({ tipo: 'home' })}>Página inicial</span>
+        <span className="sep">·</span>
+        <span>Encontro {enc.n}</span>
+      </div>
+
+      <header className="encontro-head">
+        <div className="encontro-num">{enc.n}</div>
+        <div className="encontro-meta">
+          <div className="eyebrow">Encontro {enc.n} de 14</div>
+          <h1>{enc.titulo.split('—')[0].trim()}{enc.titulo.includes('—') ? <><br/><em>—{enc.titulo.split('—')[1]}</em></> : null}</h1>
+          <div className="data">{H.formatoBR(enc)} · 8h</div>
+        </div>
+      </header>
+
+      {stripe}
+
+      <p className="encontro-desc">{enc.desc}</p>
+
+      {ehFuturo && (
+        <div className="actions">
+          {podeEntrar ? (
+            <a className="btn btn--gold" href={D.zoom.url} target="_blank" rel="noopener">
+              Entrar na sala do Zoom →
+            </a>
+          ) : (
+            <a className="btn btn--primary" href={D.zoom.url} target="_blank" rel="noopener">
+              Link da sala (Zoom)
+            </a>
+          )}
+          <a
+            className="btn btn--ghost"
+            href={H.googleCalendarUrl(enc)}
+            target="_blank"
+            rel="noopener"
+          >
+            + Google Calendar
+          </a>
+        </div>
+      )}
+
+      {/* Materiais */}
+      <div className="block" id="sec-material">
+        <div className="block-head">
+          <div className="eyebrow">Material preparatório</div>
+          <h2>Para <span className="it">consultar</span></h2>
+        </div>
+        <div className="empty">Material em preparação. Estará disponível antes do encontro.</div>
+      </div>
+
+      {/* Resumo */}
+      <div className="block" id="sec-resumo">
+        <div className="block-head">
+          <div className="eyebrow">Resumo</div>
+          <h2>O que <span className="it">ficou</span></h2>
+        </div>
+        <div className="empty">{status === 'concluido' ? 'Resumo em preparação.' : 'O resumo é publicado após o encontro.'}</div>
+      </div>
+
+      <nav className="encontro-nav">
+        <div
+          className={`nav-item prev ${prev ? '' : 'disabled'}`}
+          onClick={() => prev && navegar({ tipo: 'encontro', n: prev.n })}
+        >
+          <div className="dir">← Anterior</div>
+          <div className="ttl">{prev ? `Encontro ${prev.n} · ${prev.titulo.split('—')[0].trim()}` : '—'}</div>
+        </div>
+        <div
+          className={`nav-item next ${next ? '' : 'disabled'}`}
+          onClick={() => next && navegar({ tipo: 'encontro', n: next.n })}
+        >
+          <div className="dir">Próximo →</div>
+          <div className="ttl">{next ? `Encontro ${next.n} · ${next.titulo.split('—')[0].trim()}` : '—'}</div>
+        </div>
+      </nav>
+    </div>
+  );
+};
+
+/* ─────────────  FECHADURA (umbral)  ───────────── */
+
+const Fechadura = ({ onEnter }) => {
+  const [zooming, setZooming] = React.useState(false);
+  const [appeared, setAppeared] = React.useState(false);
+
+  React.useEffect(() => {
+    const t = setTimeout(() => setAppeared(true), 60);
+    return () => clearTimeout(t);
+  }, []);
+
+  const click = () => {
+    if (zooming) return;
+    setZooming(true);
+    // duração do zoom + fade
+    setTimeout(() => onEnter(), 1400);
+  };
+
+  return (
+    <div className={`fechadura-screen ${appeared ? 'in' : ''} ${zooming ? 'zoom' : ''}`}>
+      <div className="fechadura-frame" />
+      <button className="fechadura-stage" onClick={click} aria-label="Entrar">
+        <div className="fechadura-phrase">
+          A negociação <span className="it">começa aqui.</span>
+        </div>
+        <div className="fechadura-mask">
+          <svg viewBox="0 0 100 140" className="fechadura-svg" aria-hidden="true">
+            {/* círculo + trapézio = silhueta de buraco de fechadura */}
+            <path d="M50 18 a22 22 0 1 1 0 44 a22 22 0 1 1 0 -44 z M38 56 L62 56 L70 116 L30 116 Z" fill="#A68B5B" />
+          </svg>
+        </div>
+        <div className="fechadura-text">Entrar</div>
+        <div className="fechadura-hint">clique para entrar</div>
+      </button>
+    </div>
+  );
+};
+
+/* ─────────────  PORTAL  ───────────── */
+
+const Portal = ({ onLogout }) => {
+  const [rota, setRota] = React.useState(() => {
+    try {
+      const r = JSON.parse(localStorage.getItem(ROUTE_KEY) || 'null');
+      if (r && r.tipo) return r;
+    } catch (e) {}
+    return { tipo: 'home' };
+  });
+
+  const navegar = (r) => {
+    setRota(r);
+    localStorage.setItem(ROUTE_KEY, JSON.stringify(r));
+    window.scrollTo(0, 0);
+  };
+
+  return (
+    <div className="portal" data-screen-label={
+      rota.tipo === 'home' ? 'Portal · Home' :
+      rota.tipo === 'calendario' ? 'Portal · Calendário' :
+      `Portal · Encontro ${rota.n}`
+    }>
+      <Sidebar rota={rota} navegar={navegar} />
+      <div className="portal-main">
+        <div className="topbar">
+          <span>Portal · Turma Beta</span>
+          <button className="out" onClick={onLogout}>Sair ↗</button>
+        </div>
+        {rota.tipo === 'home' && <Home navegar={navegar} />}
+        {rota.tipo === 'calendario' && <Calendario navegar={navegar} />}
+        {rota.tipo === 'encontro' && <PaginaEncontro n={rota.n} sub={rota.sub} navegar={navegar} />}
+      </div>
+    </div>
+  );
+};
+
+/* ─────────────  APP  ───────────── */
+
+const App = () => {
+  const [auth, setAuth] = React.useState(() => localStorage.getItem(STORAGE_KEY) === '1');
+  // Fechadura só aparece após login fresco — não toda vez que recarrega.
+  const [umbral, setUmbral] = React.useState(false);
+  const logout = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(ROUTE_KEY);
+    setAuth(false);
+    setUmbral(false);
+  };
+  const onLogin = () => {
+    setAuth(true);
+    setUmbral(true);
+  };
+  if (!auth) return <Login onSuccess={onLogin} />;
+  if (umbral) return <Fechadura onEnter={() => setUmbral(false)} />;
+  return <Portal onLogout={logout} />;
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+</script>
+</body>
+</html>
